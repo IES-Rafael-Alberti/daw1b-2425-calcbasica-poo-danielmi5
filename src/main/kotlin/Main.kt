@@ -1,0 +1,1 @@
+fun main() = app.Aplicacion(service.GestorOperaciones(model.Calculadora()), ui.Consola()).ejecutar()
