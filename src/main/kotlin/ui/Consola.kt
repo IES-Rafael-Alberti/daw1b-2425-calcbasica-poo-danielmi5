@@ -11,10 +11,15 @@ class Consola : EntradaSalida {
         if (salto) println(msj) else print(msj)
     }
 
+    override fun pedirCadena(msj: String): String {
+        mostrar(msj, false)
+        return scanner.next().trim()
+    }
+
     override fun pedirDouble(msj: String): Double{
         var num : Double? = null
         do {
-            mostrar(msj)
+            mostrar(msj, false)
             try {
                 num = scanner.nextDouble()
             }catch (e: Exception){
@@ -28,7 +33,7 @@ class Consola : EntradaSalida {
 
         var num : Int? = null
         do {
-            mostrar(msj)
+            mostrar(msj, false)
             try {
                 num = scanner.nextInt()
             }catch (e: Exception){
@@ -38,14 +43,29 @@ class Consola : EntradaSalida {
         return num
     }
 
-    override fun pedirOperador(msj: String): String {
+    override fun pedirOperador(msj: String): Operaciones {
         var input: String
         do {
-            mostrar(msj)
-            input = scanner.nextLine()
+            input = pedirCadena(msj)
             if (!Operaciones.verificarOperador(input)) mostrar("Debe pasar un operador válido")
         } while (!Operaciones.verificarOperador(input))
-        return input
+        return Operaciones.obtenerOperacion(input)
+    }
+
+    override fun preguntar(msj: String): Boolean {
+        var resp: Boolean?
+        do {
+            resp = when (pedirCadena("$msj (s/n)").lowercase()) {
+                "s" -> true
+                "n" -> false
+                else -> {
+                    mostrar("**ERROR** -> La respuesta debe ser 's' o 'n'")
+                    null
+                }
+            }
+        } while (resp == null)
+
+        return resp
     }
 
 

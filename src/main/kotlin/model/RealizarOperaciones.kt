@@ -1,4 +1,4 @@
-package service
+package model
 
 interface RealizarOperaciones {
     fun sumar(num1: Double, num2: Double): Double
